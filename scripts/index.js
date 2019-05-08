@@ -6,3 +6,13 @@ $(document).ready(function() {
 });
 
 store.items.push(Item.create('apples'));
+
+api.createItem('pears')
+  .then(response => response.json())
+  .then((newItem) => {
+    return api.getItems();
+  })
+  .then(response => response.json())
+  .then((items) => {
+    console.log(items);
+  });
