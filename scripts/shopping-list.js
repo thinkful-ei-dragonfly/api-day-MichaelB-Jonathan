@@ -42,23 +42,27 @@ const shoppingList = (function(){
   
   
   function render() {
-    // Filter item list if store prop is true by item.checked === false
-    let items = [ ...store.items ];
-    if (store.hideCheckedItems) {
-      items = items.filter(item => !item.checked);
+    if (store.errorMSG.length > 0) {
+      $('.js-shopping-list').html(`<p>${store.errorMSG}</p>`)
+    } else {
+      // Filter item list if store prop is true by item.checked === false
+      let items = [ ...store.items ];
+      if (store.hideCheckedItems) {
+        items = items.filter(item => !item.checked);
+      }
+    
+      // Filter item list if store prop `searchTerm` is not empty
+      if (store.searchTerm) {
+        items = items.filter(item => item.name.includes(store.searchTerm));
+      }
+    
+      // render the shopping list in the DOM
+      console.log('`render` ran');
+      const shoppingListItemsString = generateShoppingItemsString(items);
+    
+      // insert that HTML into the DOM
+      $('.js-shopping-list').html(shoppingListItemsString);
     }
-  
-    // Filter item list if store prop `searchTerm` is not empty
-    if (store.searchTerm) {
-      items = items.filter(item => item.name.includes(store.searchTerm));
-    }
-  
-    // render the shopping list in the DOM
-    console.log('`render` ran');
-    const shoppingListItemsString = generateShoppingItemsString(items);
-  
-    // insert that HTML into the DOM
-    $('.js-shopping-list').html(shoppingListItemsString);
   }
   
   
@@ -100,10 +104,10 @@ const shoppingList = (function(){
     $('.js-shopping-list').on('click', '.js-item-delete', event => {
       // get the index of the item in store.items
       const id = getItemIdFromElement(event.currentTarget);
-      // delete the item
-      store.findAndDelete(id);
-      // render the updated shopping list
-      render();
+      api.deleteItem(id)
+        .then((res) => {store.findAndDelete(id);
+          render();
+        })
     });
   }
   

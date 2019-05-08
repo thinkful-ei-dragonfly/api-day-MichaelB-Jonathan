@@ -3,6 +3,9 @@
 
 // eslint-disable-next-line no-unused-vars
 const store = (function(){
+
+  let errorMSG = '';
+
   const addItem = function(item) {
     this.items.push(item);
     // try {
@@ -58,7 +61,7 @@ const store = (function(){
     items: [],
     hideCheckedItems: false,
     searchTerm: '',
-
+    errorMSG,
     addItem,
     findById,
     // findAndToggleChecked,
