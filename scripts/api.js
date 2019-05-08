@@ -30,6 +30,12 @@ const api = (function() {
       .then(response => response.json());
   };
 
+  const deleteItem = function(id){
+    const option = {
+      method: 'DELETE',
+    };
+  };
+
   return {
     // BASE_URL,
     getItems,
