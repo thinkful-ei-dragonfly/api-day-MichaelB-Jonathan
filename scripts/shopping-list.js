@@ -1,4 +1,5 @@
-/* global store, $ */
+'use strict';
+/* global store, $, api */
 
 // eslint-disable-next-line no-unused-vars
 const shoppingList = (function(){
@@ -62,12 +63,17 @@ const shoppingList = (function(){
   
   
   function handleNewItemSubmit() {
+
     $('#js-shopping-list-form').submit(function (event) {
       event.preventDefault();
       const newItemName = $('.js-shopping-list-entry').val();
       $('.js-shopping-list-entry').val('');
-      store.addItem(newItemName);
-      render();
+      api.createItem(newItemName)
+
+        .then((newItem) => {
+          store.addItem(newItem);
+          render();
+        });
     });
   }
   
@@ -102,9 +108,17 @@ const shoppingList = (function(){
       event.preventDefault();
       const id = getItemIdFromElement(event.currentTarget);
       const itemName = $(event.currentTarget).find('.shopping-item').val();
-      store.findAndUpdateName(id, itemName);
-      store.setItemIsEditing(id, false);
-      render();
+      console.log(api);
+      api.updateItem(id, {name: itemName})
+      // eslint-disable-next-line indent
+      .then((res) => {store.findAndUpdate(id, {name: itemName});
+        // eslint-disable-next-line indent
+        store.setItemIsEditing(id, false);
+          // eslint-disable-next-line indent
+        render();});
+
+      // store.findAndUpdateName(id, itemName);
+      // render();
     });
   }
   
