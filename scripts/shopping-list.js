@@ -43,7 +43,7 @@ const shoppingList = (function(){
   
   function render() {
     if (store.errorMSG.length > 0) {
-      $('.js-shopping-list').html(`<p>${store.errorMSG}</p>`)
+      $('.js-shopping-list').html(`<p>${store.errorMSG}</p>`);
     } else {
       // Filter item list if store prop is true by item.checked === false
       let items = [ ...store.items ];
@@ -107,7 +107,7 @@ const shoppingList = (function(){
       api.deleteItem(id)
         .then((res) => {store.findAndDelete(id);
           render();
-        })
+        });
     });
   }
   

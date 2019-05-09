@@ -1,5 +1,5 @@
 'use strict';
-/* global store */
+/* global store shoppingList */
 
 const api = (function() {
   const BASE_URL = 'https://thinkful-list-api.herokuapp.com/michaelb';
